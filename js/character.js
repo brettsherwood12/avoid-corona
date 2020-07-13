@@ -3,10 +3,10 @@ class Character {
     this.game = game;
     this.position = [];
     this.dimensions = [20, 40];
-    this.direction = "up";
+    this.direction = null;
     this.infected = false;
   }
-  createObject() {
+  createSpatialObject() {
     return {
       leftEdge: this.position[0],
       rightEdge: this.position[0] + this.dimensions[0],
@@ -14,8 +14,8 @@ class Character {
       bottomEdge: this.position[1] + this.dimensions[1],
     };
   }
-  isTouching(other) {
-    const thisObject = this.createObject();
+  isTouchingOther(other) {
+    const selfObject = this.createSpatialObject();
     const otherObject = {
       leftEdge: other.position[0],
       rightEdge: other.position[0] + other.dimensions[0],
@@ -23,39 +23,42 @@ class Character {
       bottomEdge: other.position[1] + other.dimensions[1],
     };
     if (
-      thisObject.leftEdge < otherObject.rightEdge &&
-      thisObject.rightEdge > otherObject.leftEdge &&
-      thisObject.topEdge < otherObject.bottomEdge &&
-      thisObject.bottomEdge > otherObject.topEdge
+      selfObject.leftEdge <= otherObject.rightEdge &&
+      selfObject.rightEdge >= otherObject.leftEdge &&
+      selfObject.topEdge <= otherObject.bottomEdge &&
+      selfObject.bottomEdge >= otherObject.topEdge
     ) {
-      console.log("collision");
       return true;
     } else {
       return false;
     }
   }
-  isBoundary() {
-    const thisObject = this.createObject();
+  isTouchingBoundary() {
+    const thisObject = this.createSpatialObject();
     if (
-      (thisObject.leftEdge < 5 && this.direction === "left") ||
-      (thisObject.rightEdge > this.game.canvas.width - 25 &&
-        direction === "right") ||
-      (thisObject.topEdge < 5 && direction === "up") ||
-      (thisObject.bottomEdge > this.game.canvas.height - 45 &&
-        this.direction === "down")
+      thisObject.leftEdge === 0 ||
+      thisObject.rightEdge === this.game.canvas.width ||
+      thisObject.topEdge === 0 ||
+      thisObject.bottomEdge === this.game.canvas.height
     ) {
+      console.log("touching boundary");
       return true;
     } else {
       return false;
     }
   }
   validateMove() {
-    if (!this.isTouching() && !this.isBoundary()) {
-      move(this.direction);
+    if (!this.isTouchingBoundary()) {
+      for (let enemy of this.game.enemies) {
+        if (this.isTouchingOther(enemy)) {
+          this.isTouchingInfected(enemy);
+        }
+      }
+      this.move();
     }
   }
-  move(direction) {
-    switch (direction) {
+  move() {
+    switch (this.direction) {
       case "left":
         this.position[0] -= 5;
         break;

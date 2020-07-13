@@ -1,51 +1,45 @@
 class Player extends Character {
   constructor(game, position, dimensions, direction, infected) {
     super(game, position, dimensions, direction, infected);
+    this.setEventListeners();
     this.setInitialPosition();
+  }
+  setEventListeners() {
+    window.addEventListener("keydown", (event) => {
+      event.preventDefault();
+      const key = event.key;
+      switch (key) {
+        case "ArrowLeft":
+          this.direction = "left";
+          this.validateMove();
+          break;
+        case "ArrowRight":
+          this.direction = "right";
+          this.validateMove();
+          break;
+        case "ArrowUp":
+          this.direction = "up";
+          this.validateMove();
+          break;
+        case "ArrowDown":
+          this.direction = "down";
+          this.validateMove();
+      }
+    });
   }
   setInitialPosition() {
     this.position[0] = 310;
     this.position[1] = 180;
   }
-  validateMove(direction) {
-    if (
-      (this.position[0] < 5 && direction === "left") ||
-      (this.position[0] > this.game.canvas.width - 25 &&
-        direction === "right") ||
-      (this.position[1] < 5 && direction === "up") ||
-      (this.position[1] > this.game.canvas.height - 45 && direction === "down")
-    ) {
-      console.log("its false");
-      return;
-    }
-    this.move(direction);
-  }
-  move(direction) {
-    switch (direction) {
-      case "left":
-        this.position[0] -= 5;
-        break;
-      case "right":
-        this.position[0] += 5;
-        break;
-      case "up":
-        this.position[1] -= 5;
-        break;
-      case "down":
-        this.position[1] += 5;
+  isTouchingInfected(enemy) {
+    if (enemy.infected) {
+      this.game.lose();
     }
   }
-  // isInfected() {
-  //   for (let enemy of this.game.enemies) {
-  //     const isTouching = this.game.checkIfTouching(this, enemy);
-  //     if (isTouching && enemy.infected) {
-  //       return true;
-  //     }
-  //   }
-  // }
   runLogic() {
+    this.isTouchingBoundary();
     for (let enemy of this.game.enemies) {
-      this.isTouching(enemy);
+      this.isTouchingOther(enemy);
     }
   }
   draw() {

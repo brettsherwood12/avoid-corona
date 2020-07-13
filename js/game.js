@@ -6,27 +6,7 @@ class Game {
     this.player = new Player(this);
     this.enemies = [];
     this.score = new Score(this);
-    this.setKeyBindings();
     this.createEnemies();
-  }
-  setKeyBindings() {
-    window.addEventListener("keydown", (event) => {
-      event.preventDefault();
-      const key = event.key;
-      switch (key) {
-        case "ArrowLeft":
-          this.player.validateMove("left");
-          break;
-        case "ArrowRight":
-          this.player.validateMove("right");
-          break;
-        case "ArrowUp":
-          this.player.validateMove("up");
-          break;
-        case "ArrowDown":
-          this.player.validateMove("down");
-      }
-    });
   }
   createEnemies() {
     for (let i = 0; i < 10; i++) {
@@ -40,10 +20,10 @@ class Game {
     alert("You got the virus and died.");
   }
   runLogic() {
-    this.player.runLogic();
     for (let enemy of this.enemies) {
       enemy.runLogic();
     }
+    this.player.runLogic();
     this.score.runLogic();
   }
   clearScreen() {

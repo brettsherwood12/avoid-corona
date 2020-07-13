@@ -1,8 +1,9 @@
 class Enemy extends Character {
   constructor(game, position, dimensions, direction, infected) {
     super(game, position, dimensions, direction, infected);
-    this.speed = [10, 10];
+    this.speed = [5, 5];
     this.setRandomPosition();
+    this.setRandomDirection();
   }
   setRandomPosition() {
     this.position[0] =
@@ -14,27 +15,39 @@ class Enemy extends Character {
         (Math.random() * (this.game.canvas.height - this.dimensions[1])) / 5
       ) * 5;
     for (let enemy of this.game.enemies) {
-      if (this.isTouching(enemy)) {
+      if (this.isTouchingOther(enemy)) {
         this.setRandomPosition();
       }
     }
-    if (this.isTouching(this.game.player)) {
+    if (this.isTouchingOther(this.game.player)) {
       this.setRandomPosition();
     }
   }
-  move() {
-    switch (this.direction) {
-      case "left":
-        this.position[0] -= 5;
+  setRandomDirection() {
+    const random = Math.ceil(Math.random() * 4);
+    switch (random) {
+      case 1:
+        this.direction = "left";
         break;
-      case "right":
-        this.position[0] += 5;
+      case 2:
+        this.direction = "right";
         break;
-      case "up":
-        this.position[1] -= 5;
+      case 3:
+        this.direction = "up";
         break;
-      case "down":
-        this.position[1] += 5;
+      case 4:
+        this.direction = "down";
+    }
+  }
+  moveRandomly() {
+    const random = Math.ceil(Math.random() * 10);
+    if (random < 2) {
+      this.setRandomDirection();
+    } else if (random > 4) {
+      this.move();
+    }
+    if (this.isTouchingBoundary()) {
+      this.setRandomDirection;
     }
   }
   checkIfInfected() {
@@ -47,8 +60,7 @@ class Enemy extends Character {
     // }
   }
   runLogic() {
-    //this.move();
-    // this.isTouching(this, this.game.player);
+    //this.moveRandomly();
   }
   draw() {
     this.game.context.save();

@@ -39,12 +39,17 @@ class Enemy extends Character {
         this.direction = "down";
     }
   }
+  validateMove() {
+    if (!this.isTouchingBoundary()) {
+      this.move();
+    }
+  }
   moveRandomly() {
     const random = Math.ceil(Math.random() * 10);
     if (random < 2) {
       this.setRandomDirection();
     } else if (random > 4) {
-      this.move();
+      this.validateMove();
     }
     if (this.isTouchingBoundary()) {
       this.setRandomDirection;
@@ -60,7 +65,7 @@ class Enemy extends Character {
     // }
   }
   runLogic() {
-    //this.moveRandomly();
+    this.moveRandomly();
   }
   draw() {
     this.game.context.save();

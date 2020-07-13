@@ -36,25 +36,16 @@ class Character {
   isTouchingBoundary() {
     const thisObject = this.createSpatialObject();
     if (
-      thisObject.leftEdge === 0 ||
-      thisObject.rightEdge === this.game.canvas.width ||
-      thisObject.topEdge === 0 ||
-      thisObject.bottomEdge === this.game.canvas.height
+      (thisObject.leftEdge === 0 && this.direction === "left") ||
+      (thisObject.rightEdge === this.game.canvas.width &&
+        this.direction === "right") ||
+      (thisObject.topEdge === 0 && this.direction === "up") ||
+      (thisObject.bottomEdge === this.game.canvas.height &&
+        this.direction === "down")
     ) {
-      console.log("touching boundary");
       return true;
     } else {
       return false;
-    }
-  }
-  validateMove() {
-    if (!this.isTouchingBoundary()) {
-      for (let enemy of this.game.enemies) {
-        if (this.isTouchingOther(enemy)) {
-          this.isTouchingInfected(enemy);
-        }
-      }
-      this.move();
     }
   }
   move() {

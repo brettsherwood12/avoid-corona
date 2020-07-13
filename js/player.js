@@ -36,10 +36,23 @@ class Player extends Character {
       this.game.lose();
     }
   }
-  runLogic() {
-    this.isTouchingBoundary();
+  validateMove() {
+    let boundary = this.isTouchingBoundary();
+    let other = false;
     for (let enemy of this.game.enemies) {
-      this.isTouchingOther(enemy);
+      if (this.isTouchingOther(enemy)) {
+        other = true;
+      }
+    }
+    if (!other && !boundary) {
+      this.move();
+    }
+  }
+  runLogic() {
+    for (let enemy of this.game.enemies) {
+      if (this.isTouchingOther(enemy) && enemy.infected) {
+        this.game.lose();
+      }
     }
   }
   draw() {

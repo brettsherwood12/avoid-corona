@@ -1,8 +1,11 @@
-class Player {
-  constructor(game) {
-    this.game = game;
-    this.position = [350, 225];
-    this.dimensions = [20, 40];
+class Player extends Character {
+  constructor(game, position, dimensions, direction, infected) {
+    super(game, position, dimensions, direction, infected);
+    this.setInitialPosition();
+  }
+  setInitialPosition() {
+    this.position[0] = 310;
+    this.position[1] = 180;
   }
   validateMove(direction) {
     if (
@@ -32,21 +35,21 @@ class Player {
         this.position[1] += 5;
     }
   }
-
-  isInfected() {
+  // isInfected() {
+  //   for (let enemy of this.game.enemies) {
+  //     const isTouching = this.game.checkIfTouching(this, enemy);
+  //     if (isTouching && enemy.infected) {
+  //       return true;
+  //     }
+  //   }
+  // }
+  runLogic() {
     for (let enemy of this.game.enemies) {
-      const isTouching = this.game.checkIfTouching(this, enemy);
-      if (isTouching && enemy.infected) {
-        return true;
-      }
+      this.isTouching(enemy);
     }
   }
-  runLogic() {
-    // if (this.isInfected) {
-    //   this.game.lose();
-    // }
-  }
   draw() {
+    this.game.context.save();
     this.game.context.fillStyle = "blue";
     this.game.context.fillRect(
       this.position[0],
@@ -54,5 +57,6 @@ class Player {
       this.dimensions[0],
       this.dimensions[1]
     );
+    this.game.context.restore();
   }
 }

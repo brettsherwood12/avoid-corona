@@ -1,11 +1,7 @@
-class Enemy {
-  constructor(game) {
-    this.game = game;
-    this.position = [];
-    this.dimensions = [20, 40];
+class Enemy extends Character {
+  constructor(game, position, dimensions, direction, infected) {
+    super(game, position, dimensions, direction, infected);
     this.speed = [10, 10];
-    this.direction = "up";
-    this.infected = false;
     this.setRandomPosition();
   }
   setRandomPosition() {
@@ -18,11 +14,11 @@ class Enemy {
         (Math.random() * (this.game.canvas.height - this.dimensions[1])) / 5
       ) * 5;
     for (let enemy of this.game.enemies) {
-      if (this.game.checkIfTouching(this, enemy)) {
+      if (this.isTouching(enemy)) {
         this.setRandomPosition();
       }
     }
-    if (this.game.checkIfTouching(this, this.game.player)) {
+    if (this.isTouching(this.game.player)) {
       this.setRandomPosition();
     }
   }
@@ -52,7 +48,7 @@ class Enemy {
   }
   runLogic() {
     //this.move();
-    this.game.checkIfTouching(this, this.game.player);
+    // this.isTouching(this, this.game.player);
   }
   draw() {
     this.game.context.save();

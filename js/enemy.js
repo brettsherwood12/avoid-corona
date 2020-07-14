@@ -1,7 +1,6 @@
 class Enemy extends Character {
   constructor(game, position, dimensions, direction, infected) {
     super(game, position, dimensions, direction, infected);
-    this.speed = [5, 5];
     this.setRandomPosition();
     this.setRandomDirection();
   }
@@ -40,7 +39,21 @@ class Enemy extends Character {
     }
   }
   validateMove() {
-    if (!this.isTouchingBoundary()) {
+    let boundary = this.isTouchingBoundary();
+    let other = false;
+    let indexToSkip = this.game.enemies.indexOf(this);
+    for (let enemy of this.game.enemies) {
+      if (this.game.enemies.indexOf(enemy) === indexToSkip) {
+        continue;
+      }
+      if (this.isTouchingOther(enemy)) {
+        other = true;
+        if (enemy.infected) {
+          this.infected = true;
+        }
+      }
+    }
+    if (!other && !boundary) {
       this.move();
     }
   }
@@ -54,15 +67,6 @@ class Enemy extends Character {
     if (this.isTouchingBoundary()) {
       this.setRandomDirection;
     }
-  }
-  checkIfInfected() {
-    // need to use array methods to ensure checkifTouching is not ran on the this enemy itself
-    // for (let enemy of this.game.enemies) {
-    //   const isTouching = this.game.checkIfTouching(this, enemy);
-    //   if (isTouching && enemy.infected) {
-    //     this.infected = true;
-    //   }
-    // }
   }
   runLogic() {
     this.moveRandomly();

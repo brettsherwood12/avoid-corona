@@ -14,25 +14,6 @@ class Character {
       bottomEdge: this.position[1] + this.dimensions[1],
     };
   }
-  isTouchingOther(other) {
-    const selfObject = this.createSpatialObject();
-    const otherObject = {
-      leftEdge: other.position[0],
-      rightEdge: other.position[0] + other.dimensions[0],
-      topEdge: other.position[1],
-      bottomEdge: other.position[1] + other.dimensions[1],
-    };
-    if (
-      selfObject.leftEdge <= otherObject.rightEdge &&
-      selfObject.rightEdge >= otherObject.leftEdge &&
-      selfObject.topEdge <= otherObject.bottomEdge &&
-      selfObject.bottomEdge >= otherObject.topEdge
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
   isTouchingBoundary() {
     const thisObject = this.createSpatialObject();
     if (
@@ -43,6 +24,38 @@ class Character {
       (thisObject.bottomEdge === this.game.canvas.height &&
         this.direction === "down")
     ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  isTouchingOther(other) {
+    const selfObject = this.createSpatialObject();
+    const otherObject = {
+      leftEdge: other.position[0],
+      rightEdge: other.position[0] + other.dimensions[0],
+      topEdge: other.position[1],
+      bottomEdge: other.position[1] + other.dimensions[1],
+    };
+    if (
+      (this.direction === "left" &&
+        selfObject.leftEdge === otherObject.rightEdge &&
+        selfObject.topEdge < otherObject.bottomEdge &&
+        selfObject.bottomEdge > otherObject.topEdge) ||
+      (this.direction === "right" &&
+        selfObject.rightEdge === otherObject.leftEdge &&
+        selfObject.topEdge < otherObject.bottomEdge &&
+        selfObject.bottomEdge > otherObject.topEdge) ||
+      (this.direction === "up" &&
+        selfObject.topEdge === otherObject.bottomEdge &&
+        selfObject.leftEdge < otherObject.rightEdge &&
+        selfObject.rightEdge > otherObject.leftEdge) ||
+      (this.direction === "down" &&
+        selfObject.bottomEdge === otherObject.topEdge &&
+        selfObject.leftEdge < otherObject.rightEdge &&
+        selfObject.rightEdge > otherObject.leftEdge)
+    ) {
+      console.log("touching edge of other");
       return true;
     } else {
       return false;

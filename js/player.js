@@ -31,17 +31,15 @@ class Player extends Character {
     this.position[0] = 310;
     this.position[1] = 180;
   }
-  isTouchingInfected(enemy) {
-    if (enemy.infected) {
-      this.game.lose();
-    }
-  }
   validateMove() {
     let boundary = this.isTouchingBoundary();
     let other = false;
     for (let enemy of this.game.enemies) {
       if (this.isTouchingOther(enemy)) {
         other = true;
+        if (enemy.infected) {
+          this.game.lose();
+        }
       }
     }
     if (!other && !boundary) {

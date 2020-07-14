@@ -1,3 +1,5 @@
+const background = new Image();
+
 class Game {
   constructor(canvas) {
     this.running = true;
@@ -37,9 +39,9 @@ class Game {
     this.score.draw();
   }
   loop() {
-    this.runLogic();
     this.clearScreen();
     this.draw();
+    this.runLogic();
     if (this.running) {
       setTimeout(() => {
         this.loop();

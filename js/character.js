@@ -55,7 +55,6 @@ class Character {
         selfObject.leftEdge < otherObject.rightEdge &&
         selfObject.rightEdge > otherObject.leftEdge)
     ) {
-      console.log("touching edge of other");
       return true;
     } else {
       return false;

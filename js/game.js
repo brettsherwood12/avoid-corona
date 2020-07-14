@@ -17,9 +17,13 @@ class Game {
     }
     this.enemies[0].infected = true;
   }
+  win() {
+    this.running = false;
+    alert("Congratulations, you won.");
+  }
   lose() {
     this.running = false;
-    alert("You got the virus and died.");
+    alert("You got the virus, game over.");
   }
   runLogic() {
     for (let enemy of this.enemies) {
@@ -39,9 +43,9 @@ class Game {
     this.score.draw();
   }
   loop() {
+    this.runLogic();
     this.clearScreen();
     this.draw();
-    this.runLogic();
     if (this.running) {
       setTimeout(() => {
         this.loop();

@@ -53,6 +53,9 @@ class Enemy extends Character {
         }
       }
     }
+    if (this.isTouchingOther(this.game.player)) {
+      other = true;
+    }
     if (!other && !boundary) {
       this.move();
     }

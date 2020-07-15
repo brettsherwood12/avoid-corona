@@ -1,6 +1,7 @@
 class Player extends Character {
-  constructor(game, position, dimensions, direction, infected) {
-    super(game, position, dimensions, direction, infected);
+  constructor(game, position, dimensions, direction, infected, image) {
+    super(game, position, dimensions, direction, infected, image);
+    this.image.src = "../img/player.jpg";
     this.setEventListeners();
     this.setInitialPosition();
   }
@@ -11,19 +12,19 @@ class Player extends Character {
       switch (key) {
         case "ArrowLeft":
           this.direction = "left";
-          this.validateMove();
+          this.runMoveLogic();
           break;
         case "ArrowRight":
           this.direction = "right";
-          this.validateMove();
+          this.runMoveLogic();
           break;
         case "ArrowUp":
           this.direction = "up";
-          this.validateMove();
+          this.runMoveLogic();
           break;
         case "ArrowDown":
           this.direction = "down";
-          this.validateMove();
+          this.runMoveLogic();
       }
     });
   }
@@ -31,35 +32,28 @@ class Player extends Character {
     this.position[0] = 310;
     this.position[1] = 180;
   }
-  validateMove() {
-    let boundary = this.isTouchingBoundary();
-    let other = false;
+  runMoveLogic() {
+    let isTouchingBoundary = this.isTouchingBoundary();
+    let isTouchingOther = false;
     for (let enemy of this.game.enemies) {
       if (this.isTouchingOther(enemy)) {
-        other = true;
-        if (enemy.infected) {
-          this.game.lose();
-          console.log("lose called from validatemove");
-        }
+        isTouchingOther = true;
       }
     }
-    if (!other && !boundary) {
+    if (!isTouchingOther && !isTouchingBoundary) {
       this.move();
     }
   }
-  runLogic() {
+  runLoopLogic() {
     for (let enemy of this.game.enemies) {
       if (this.isTouchingOther(enemy) && enemy.infected) {
         this.game.lose();
-        this.game.lose();
-        console.log("lose called from runLogic");
       }
     }
   }
   draw() {
     this.game.context.save();
-    this.game.context.fillStyle = "blue";
-    this.game.context.fillRect(this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
+    this.game.context.drawImage(this.image, this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
     this.game.context.restore();
   }
 }

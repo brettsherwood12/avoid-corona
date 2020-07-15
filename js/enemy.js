@@ -1,6 +1,7 @@
 class Enemy extends Character {
-  constructor(game, position, dimensions, direction, infected) {
-    super(game, position, dimensions, direction, infected);
+  constructor(game, position, dimensions, direction, infected, image) {
+    super(game, position, dimensions, direction, infected, image);
+    this.image.src = "/img/enemy.jpg";
     this.setRandomPosition();
     this.setRandomDirection();
   }
@@ -32,8 +33,19 @@ class Enemy extends Character {
         this.direction = "down";
     }
   }
+  moveRandomly() {
+    const random = Math.ceil(Math.random() * 10);
+    if (random < 2) {
+      this.setRandomDirection();
+    } else if (random > 4) {
+      this.runMoveLogic();
+    }
+    if (this.isTouchingBoundary()) {
+      this.setRandomDirection;
+    }
+  }
   runMoveLogic() {
-    let isTouchingBoundary = this.isTouchingBoundary();
+    let isTouchingBoundary = this.isTouchingBoundary(this);
     let isTouchingOther = false;
     let thisIndex = this.game.enemies.indexOf(this);
     for (let enemy of this.game.enemies) {
@@ -54,24 +66,14 @@ class Enemy extends Character {
       this.move();
     }
   }
-  moveRandomly() {
-    const random = Math.ceil(Math.random() * 10);
-    if (random < 2) {
-      this.setRandomDirection();
-    } else if (random > 4) {
-      this.runMoveLogic();
-    }
-    if (this.isTouchingBoundary()) {
-      this.setRandomDirection;
-    }
-  }
-  runLogic() {
+  runLoopLogic() {
     this.moveRandomly();
   }
   draw() {
     this.game.context.save();
-    this.infected ? (this.game.context.fillStyle = "green") : (this.game.context.fillStyle = "brown");
-    this.game.context.fillRect(this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
+    // this.infected ? (this.game.context.fillStyle = "green") : (this.game.context.fillStyle = "brown");
+    // this.game.context.fillRect(this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
+    this.game.context.drawImage(this.image, this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
     this.game.context.restore();
   }
 }

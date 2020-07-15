@@ -5,17 +5,18 @@ class Character {
     this.dimensions = [30, 45];
     this.direction = null;
     this.infected = false;
+    this.image = new Image();
   }
-  createSpatialObject() {
+  createSpatialObject(character) {
     return {
-      leftEdge: this.position[0],
-      rightEdge: this.position[0] + this.dimensions[0],
-      topEdge: this.position[1],
-      bottomEdge: this.position[1] + this.dimensions[1],
+      leftEdge: character.position[0],
+      rightEdge: character.position[0] + character.dimensions[0],
+      topEdge: character.position[1],
+      bottomEdge: character.position[1] + character.dimensions[1],
     };
   }
   isTouchingBoundary() {
-    const thisObject = this.createSpatialObject();
+    const thisObject = this.createSpatialObject(this);
     if (
       (thisObject.leftEdge === 0 && this.direction === "left") ||
       (thisObject.rightEdge === this.game.canvas.width && this.direction === "right") ||
@@ -28,30 +29,25 @@ class Character {
     }
   }
   isTouchingOther(other) {
-    const selfObject = this.createSpatialObject();
-    const otherObject = {
-      leftEdge: other.position[0],
-      rightEdge: other.position[0] + other.dimensions[0],
-      topEdge: other.position[1],
-      bottomEdge: other.position[1] + other.dimensions[1],
-    };
+    const thisObject = this.createSpatialObject(this);
+    const otherObject = this.createSpatialObject(other);
     if (
       (this.direction === "left" &&
-        selfObject.leftEdge === otherObject.rightEdge &&
-        selfObject.topEdge < otherObject.bottomEdge &&
-        selfObject.bottomEdge > otherObject.topEdge) ||
+        thisObject.leftEdge === otherObject.rightEdge &&
+        thisObject.topEdge < otherObject.bottomEdge &&
+        thisObject.bottomEdge > otherObject.topEdge) ||
       (this.direction === "right" &&
-        selfObject.rightEdge === otherObject.leftEdge &&
-        selfObject.topEdge < otherObject.bottomEdge &&
-        selfObject.bottomEdge > otherObject.topEdge) ||
+        thisObject.rightEdge === otherObject.leftEdge &&
+        thisObject.topEdge < otherObject.bottomEdge &&
+        thisObject.bottomEdge > otherObject.topEdge) ||
       (this.direction === "up" &&
-        selfObject.topEdge === otherObject.bottomEdge &&
-        selfObject.leftEdge < otherObject.rightEdge &&
-        selfObject.rightEdge > otherObject.leftEdge) ||
+        thisObject.topEdge === otherObject.bottomEdge &&
+        thisObject.leftEdge < otherObject.rightEdge &&
+        thisObject.rightEdge > otherObject.leftEdge) ||
       (this.direction === "down" &&
-        selfObject.bottomEdge === otherObject.topEdge &&
-        selfObject.leftEdge < otherObject.rightEdge &&
-        selfObject.rightEdge > otherObject.leftEdge)
+        thisObject.bottomEdge === otherObject.topEdge &&
+        thisObject.leftEdge < otherObject.rightEdge &&
+        thisObject.rightEdge > otherObject.leftEdge)
     ) {
       return true;
     } else {

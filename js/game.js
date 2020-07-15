@@ -2,12 +2,12 @@ const background = new Image();
 
 class Game {
   constructor(canvas) {
-    this.running = true;
     this.canvas = canvas;
     this.context = canvas.getContext("2d");
     this.player = new Player(this);
     this.enemies = [];
     this.score = new Score(this);
+    this.running = true;
     this.createEnemies();
   }
   createEnemies() {
@@ -18,23 +18,19 @@ class Game {
     this.enemies[0].infected = true;
   }
   win() {
-    for (let i = 0; i < 10; i++) {
-      this.score.drawWin();
-    }
     this.running = false;
+    alert("You win");
   }
   lose() {
-    for (let i = 0; i < 10; i++) {
-      this.score.drawLose();
-    }
     this.running = false;
+    alert("You Lose");
   }
   runLogic() {
+    this.player.runLoopLogic();
     for (let enemy of this.enemies) {
-      enemy.runLogic();
+      enemy.runLoopLogic();
     }
-    this.player.runLogic();
-    this.score.runLogic();
+    this.score.runLoopLogic();
   }
   clearScreen() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);

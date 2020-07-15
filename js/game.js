@@ -18,12 +18,16 @@ class Game {
     this.enemies[0].infected = true;
   }
   win() {
+    for (let i = 0; i < 10; i++) {
+      this.score.drawWin();
+    }
     this.running = false;
-    alert("Congratulations, you won.");
   }
   lose() {
+    for (let i = 0; i < 10; i++) {
+      this.score.drawLose();
+    }
     this.running = false;
-    alert("You got the virus, game over.");
   }
   runLogic() {
     for (let enemy of this.enemies) {

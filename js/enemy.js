@@ -5,14 +5,8 @@ class Enemy extends Character {
     this.setRandomDirection();
   }
   setRandomPosition() {
-    this.position[0] =
-      Math.ceil(
-        (Math.random() * (this.game.canvas.width - this.dimensions[0])) / 5
-      ) * 5;
-    this.position[1] =
-      Math.ceil(
-        (Math.random() * (this.game.canvas.height - this.dimensions[1])) / 5
-      ) * 5;
+    this.position[0] = Math.ceil((Math.random() * (this.game.canvas.width - this.dimensions[0])) / 5) * 5;
+    this.position[1] = Math.ceil((Math.random() * (this.game.canvas.height - this.dimensions[1])) / 5) * 5;
     for (let enemy of this.game.enemies) {
       if (this.isTouchingOther(enemy)) {
         this.setRandomPosition();
@@ -38,25 +32,25 @@ class Enemy extends Character {
         this.direction = "down";
     }
   }
-  validateMove() {
-    let boundary = this.isTouchingBoundary();
-    let other = false;
-    let indexToSkip = this.game.enemies.indexOf(this);
+  runMoveLogic() {
+    let isTouchingBoundary = this.isTouchingBoundary();
+    let isTouchingOther = false;
+    let thisIndex = this.game.enemies.indexOf(this);
     for (let enemy of this.game.enemies) {
-      if (this.game.enemies.indexOf(enemy) === indexToSkip) {
+      if (this.game.enemies.indexOf(enemy) === thisIndex) {
         continue;
       }
       if (this.isTouchingOther(enemy)) {
-        other = true;
+        isTouchingOther = true;
         if (enemy.infected) {
           this.infected = true;
         }
       }
     }
     if (this.isTouchingOther(this.game.player)) {
-      other = true;
+      isTouchingOther = true;
     }
-    if (!other && !boundary) {
+    if (!isTouchingOther && !isTouchingBoundary) {
       this.move();
     }
   }
@@ -65,7 +59,7 @@ class Enemy extends Character {
     if (random < 2) {
       this.setRandomDirection();
     } else if (random > 4) {
-      this.validateMove();
+      this.runMoveLogic();
     }
     if (this.isTouchingBoundary()) {
       this.setRandomDirection;
@@ -76,15 +70,8 @@ class Enemy extends Character {
   }
   draw() {
     this.game.context.save();
-    this.infected
-      ? (this.game.context.fillStyle = "green")
-      : (this.game.context.fillStyle = "brown");
-    this.game.context.fillRect(
-      this.position[0],
-      this.position[1],
-      this.dimensions[0],
-      this.dimensions[1]
-    );
+    this.infected ? (this.game.context.fillStyle = "green") : (this.game.context.fillStyle = "brown");
+    this.game.context.fillRect(this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
     this.game.context.restore();
   }
 }

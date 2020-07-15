@@ -39,6 +39,7 @@ class Player extends Character {
         other = true;
         if (enemy.infected) {
           this.game.lose();
+          console.log("lose called from validatemove");
         }
       }
     }
@@ -50,18 +51,15 @@ class Player extends Character {
     for (let enemy of this.game.enemies) {
       if (this.isTouchingOther(enemy) && enemy.infected) {
         this.game.lose();
+        this.game.lose();
+        console.log("lose called from runLogic");
       }
     }
   }
   draw() {
     this.game.context.save();
     this.game.context.fillStyle = "blue";
-    this.game.context.fillRect(
-      this.position[0],
-      this.position[1],
-      this.dimensions[0],
-      this.dimensions[1]
-    );
+    this.game.context.fillRect(this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
     this.game.context.restore();
   }
 }

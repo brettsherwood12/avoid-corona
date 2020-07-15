@@ -1,4 +1,4 @@
-class Score {
+class Menu {
   constructor(game) {
     this.game = game;
     this.now = Date.now();
@@ -6,7 +6,7 @@ class Score {
     this.ticker = "";
   }
   runTicker() {
-    this.start += 9000000;
+    this.start += 4000000;
     const date = new Date(this.start);
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -18,10 +18,22 @@ class Score {
       this.runTicker();
     }
     if (this.start > this.now) {
-      this.game.running = false;
-      this.drawWin();
-      console.log("if its logging why isnt it drawing?");
+      this.game.win();
     }
+  }
+  draw() {
+    this.game.context.save();
+    this.game.context.fillStyle = "black";
+    this.game.context.font = "14px sans-serif";
+    this.game.context.fillText(this.ticker, 300, 380);
+    this.game.context.restore();
+  }
+  drawStart() {
+    this.game.context.save();
+    this.game.context.fillStyle = "black";
+    this.game.context.font = "32px sans-serif";
+    this.game.context.fillText("Press Any Key to start", 150, 150);
+    this.game.context.restore();
   }
   drawLose() {
     this.game.context.save();
@@ -34,14 +46,8 @@ class Score {
     this.game.context.save();
     this.game.context.fillStyle = "black";
     this.game.context.font = "32px sans-serif";
-    this.game.context.fillText("You won!", 300, 300);
+    this.game.context.fillText("You won!", 150, 150);
     this.game.context.restore();
-  }
-  draw() {
-    this.game.context.save();
-    this.game.context.fillStyle = "black";
-    this.game.context.font = "14px sans-serif";
-    this.game.context.fillText(this.ticker, 300, 380);
-    this.game.context.restore();
+    console.log("draw win called");
   }
 }

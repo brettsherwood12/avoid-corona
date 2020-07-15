@@ -2,7 +2,7 @@ class Character {
   constructor(game) {
     this.game = game;
     this.position = [];
-    this.dimensions = [20, 40];
+    this.dimensions = [30, 45];
     this.direction = null;
     this.infected = false;
   }
@@ -18,11 +18,9 @@ class Character {
     const thisObject = this.createSpatialObject();
     if (
       (thisObject.leftEdge === 0 && this.direction === "left") ||
-      (thisObject.rightEdge === this.game.canvas.width &&
-        this.direction === "right") ||
+      (thisObject.rightEdge === this.game.canvas.width && this.direction === "right") ||
       (thisObject.topEdge === 0 && this.direction === "up") ||
-      (thisObject.bottomEdge === this.game.canvas.height &&
-        this.direction === "down")
+      (thisObject.bottomEdge === this.game.canvas.height && this.direction === "down")
     ) {
       return true;
     } else {

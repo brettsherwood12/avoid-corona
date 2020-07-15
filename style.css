@@ -4,6 +4,6 @@ body {
 }
 
 canvas {
-  /*background-image: url();*/
+  background-image: url("./img/background.jpg");
   background-color: white;
 }

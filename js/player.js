@@ -1,3 +1,6 @@
+const coughUrl = "/cough.mp3";
+const cough = new Audio(coughUrl);
+
 class Player extends Character {
   constructor(game, position, dimensions, direction, infected, image) {
     super(game, position, dimensions, direction, infected, image);
@@ -38,6 +41,7 @@ class Player extends Character {
     for (let enemy of this.game.enemies) {
       if (this.isTouchingOther(enemy)) {
         isTouchingOther = true;
+        cough.play();
       }
     }
     if (!isTouchingOther && !isTouchingBoundary) {

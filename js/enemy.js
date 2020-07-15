@@ -1,10 +1,10 @@
-const enemyCoughUrl = "/cough.mp3";
+const enemyCoughUrl = "/assets/cough.mp3";
 const enemyCough = new Audio(enemyCoughUrl);
 
 class Enemy extends Character {
   constructor(game, position, dimensions, direction, infected, image) {
     super(game, position, dimensions, direction, infected, image);
-    this.image.src = "/img/enemy.jpg";
+    this.image.src = "/assets/enemy.jpg";
     this.setRandomPosition();
     this.setRandomDirection();
   }
@@ -75,9 +75,9 @@ class Enemy extends Character {
   }
   draw() {
     this.game.context.save();
-    this.infected ? (this.game.context.fillStyle = "green") : (this.game.context.fillStyle = "brown");
-    this.game.context.fillRect(this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
-    // this.game.context.drawImage(this.image, this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
+    // this.infected ? (this.game.context.fillStyle = "green") : (this.game.context.fillStyle = "brown");
+    // this.game.context.fillRect(this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
+    this.game.context.drawImage(this.image, this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
     this.game.context.restore();
   }
 }

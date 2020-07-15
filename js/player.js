@@ -1,10 +1,10 @@
-const coughUrl = "/cough.mp3";
+const coughUrl = "/assets/cough.mp3";
 const cough = new Audio(coughUrl);
 
 class Player extends Character {
   constructor(game, position, dimensions, direction, infected, image) {
     super(game, position, dimensions, direction, infected, image);
-    this.image.src = "../img/player.jpg";
+    this.image.src = "/assets/player.jpg";
     this.setEventListeners();
     this.setInitialPosition();
   }
@@ -57,7 +57,9 @@ class Player extends Character {
   }
   draw() {
     this.game.context.save();
-    this.game.context.drawImage(this.image, this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
+    this.game.context.fillStyle = "blue";
+    //this.game.context.drawImage(this.image, this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
+    this.game.context.fillRect(this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
     this.game.context.restore();
   }
 }

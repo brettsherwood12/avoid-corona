@@ -1,11 +1,10 @@
-const background = new Image();
-
 class Game {
   constructor(canvas) {
     this.canvas = canvas;
     this.context = canvas.getContext("2d");
     this.player = new Player(this);
     this.enemies = [];
+    this.powerups = [];
     this.score = new Score(this);
     this.running = true;
     this.createEnemies();
@@ -17,13 +16,16 @@ class Game {
     }
     this.enemies[0].infected = true;
   }
+  createPowerUps() {
+    for (let i = 0; i < 4; i++) {}
+  }
   win() {
+    this.drawWin();
     this.running = false;
-    alert("You win");
   }
   lose() {
+    this.drawLose();
     this.running = false;
-    alert("You Lose");
   }
   runLogic() {
     this.player.runLoopLogic();
@@ -42,11 +44,35 @@ class Game {
     }
     this.score.draw();
   }
+  drawWin() {
+    this.context.save();
+    this.context.fillStyle = "white";
+    this.context.font = "bold 48px arial";
+    this.context.fillText("You avoided corona!", 100, 100);
+    setTimeout(() => {
+      this.context.fillStyle = "white";
+      this.context.font = "bold 48px arial";
+      this.context.fillText("...for now", 100, 150);
+    }, 2000);
+    this.context.restore();
+  }
+  drawLose() {
+    this.context.save();
+    this.context.fillStyle = "white";
+    this.context.font = "bold 48px arial";
+    this.context.fillText("You got corona!", 150, 100);
+    setTimeout(() => {
+      this.context.fillStyle = "white";
+      this.context.font = "bold 48px arial";
+      this.context.fillText("Don't pass it on", 150, 150);
+    }, 2000);
+    this.context.restore();
+  }
   loop() {
     this.runLogic();
-    this.clearScreen();
-    this.draw();
     if (this.running) {
+      this.clearScreen();
+      this.draw();
       setTimeout(() => {
         this.loop();
       }, 1000 / 60);

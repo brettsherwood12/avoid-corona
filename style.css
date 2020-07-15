@@ -3,7 +3,11 @@ body {
   text-align: center;
 }
 
+ul {
+  list-style-type: none;
+}
+
 canvas {
-  background-image: url("./img/background.jpg");
+  background-image: url("./assets/background.jpg");
   background-color: white;
 }

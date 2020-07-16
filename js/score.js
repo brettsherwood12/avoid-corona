@@ -7,7 +7,7 @@ class Score {
     this.won = false;
   }
   runTicker() {
-    this.start += 9000000;
+    this.start += 3500000;
     const date = new Date(this.start);
     const day = date.getDate();
     const month = date.toLocaleString("default", { month: "short" });

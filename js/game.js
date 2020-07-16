@@ -8,6 +8,7 @@ class Game {
     this.score = new Score(this);
     this.running = true;
     this.createEnemies();
+    this.createPowerUps();
   }
   createEnemies() {
     for (let i = 0; i < 10; i++) {
@@ -17,7 +18,10 @@ class Game {
     this.enemies[0].infected = true;
   }
   createPowerUps() {
-    for (let i = 0; i < 4; i++) {}
+    for (let i = 0; i < 2; i++) {
+      const powerup = new Powerup(this);
+      this.powerups.push(powerup);
+    }
   }
   win() {
     this.drawWin();
@@ -29,6 +33,9 @@ class Game {
   }
   runLogic() {
     this.player.runLoopLogic();
+    for (let powerup of this.powerups) {
+      powerup.runLoopLogic();
+    }
     for (let enemy of this.enemies) {
       enemy.runLoopLogic();
     }
@@ -39,6 +46,9 @@ class Game {
   }
   draw() {
     this.player.draw();
+    for (let powerup of this.powerups) {
+      powerup.draw();
+    }
     for (let enemy of this.enemies) {
       enemy.draw();
     }
@@ -46,25 +56,25 @@ class Game {
   }
   drawWin() {
     this.context.save();
-    this.context.fillStyle = "white";
+    this.context.fillStyle = "#670007";
     this.context.font = "bold 48px arial";
-    this.context.fillText("You avoided corona!", 100, 100);
+    this.context.fillText("Corona avoided!", 150, 130);
     setTimeout(() => {
-      this.context.fillStyle = "white";
-      this.context.font = "bold 48px arial";
-      this.context.fillText("...for now", 100, 150);
+      this.context.fillStyle = "#670007";
+      this.context.font = "bold 24px arial";
+      this.context.fillText("...for now", 150, 180);
     }, 2000);
     this.context.restore();
   }
   drawLose() {
     this.context.save();
-    this.context.fillStyle = "white";
+    this.context.fillStyle = "#670007";
     this.context.font = "bold 48px arial";
-    this.context.fillText("You got corona!", 150, 100);
+    this.context.fillText("Corona contacted", 150, 130);
     setTimeout(() => {
-      this.context.fillStyle = "white";
-      this.context.font = "bold 48px arial";
-      this.context.fillText("Don't pass it on", 150, 150);
+      this.context.fillStyle = "#670007";
+      this.context.font = "bold 24px arial";
+      this.context.fillText("...don't pass it on", 150, 180);
     }, 2000);
     this.context.restore();
   }

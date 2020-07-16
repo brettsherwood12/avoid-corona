@@ -1,13 +1,37 @@
 body {
-  background-color: #247571;
+  color: #670007;
+  background-color: #e6d8ad;
   text-align: center;
+}
+
+canvas {
+  background-image: url("./assets/background.jpg");
+  background-color: white;
+  margin-top: 1rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+}
+
+img {
+  width: 5rem;
+  height: 100%;
+  padding: 2rem;
+  align-content: center;
 }
 
 ul {
   list-style-type: none;
 }
 
-canvas {
-  background-image: url("./assets/background.jpg");
-  background-color: white;
+a {
+  color: #237136;
+}
+
+a:hover {
+  background-color: gray;
 }

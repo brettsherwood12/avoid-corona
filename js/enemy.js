@@ -2,9 +2,12 @@ const enemyCoughUrl = "/assets/cough.mp3";
 const enemyCough = new Audio(enemyCoughUrl);
 
 class Enemy extends Character {
-  constructor(game, position, dimensions, direction, infected, image) {
-    super(game, position, dimensions, direction, infected, image);
-    this.image.src = "/assets/enemy.jpg";
+  constructor(game, position, direction, infected, image) {
+    super(game, position, direction, infected, image);
+    this.dimensions = [40, 60];
+    this.direction = null;
+    this.infected = false;
+    this.image.src = "";
     this.setRandomPosition();
     this.setRandomDirection();
   }
@@ -64,7 +67,7 @@ class Enemy extends Character {
     }
     if (this.isTouchingOther(this.game.player)) {
       isTouchingOther = true;
-      enemyCough.play();
+      //enemyCough.play();
     }
     if (!isTouchingOther && !isTouchingBoundary) {
       this.move();
@@ -72,11 +75,10 @@ class Enemy extends Character {
   }
   runLoopLogic() {
     this.moveRandomly();
+    this.infected ? (this.image.src = "/assets/enemy_infected.jpg") : (this.image.src = "/assets/enemy.jpg");
   }
   draw() {
     this.game.context.save();
-    // this.infected ? (this.game.context.fillStyle = "green") : (this.game.context.fillStyle = "brown");
-    // this.game.context.fillRect(this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
     this.game.context.drawImage(this.image, this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
     this.game.context.restore();
   }

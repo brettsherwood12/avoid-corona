@@ -2,8 +2,12 @@ const coughUrl = "/assets/cough.mp3";
 const cough = new Audio(coughUrl);
 
 class Player extends Character {
-  constructor(game, position, dimensions, direction, infected, image) {
-    super(game, position, dimensions, direction, infected, image);
+  constructor(game, position, direction, infected, image) {
+    super(game, position, direction, infected, image);
+    this.dimensions = [40, 60];
+    this.direction = null;
+    this.infected = false;
+    this.immune = false;
     this.image.src = "/assets/player.jpg";
     this.setEventListeners();
     this.setInitialPosition();
@@ -35,6 +39,9 @@ class Player extends Character {
     this.position[0] = 310;
     this.position[1] = 180;
   }
+  powerUp() {
+    setTimeout();
+  }
   runMoveLogic() {
     let isTouchingBoundary = this.isTouchingBoundary();
     let isTouchingOther = false;
@@ -49,6 +56,12 @@ class Player extends Character {
     }
   }
   runLoopLogic() {
+    // for (let powerup of this.game.powerups) {
+    //   if (this.isTouchingOther(powerup)) {
+    //     const index = this.game.powerups.indexOf(powerup);
+    //     this.game.powerups.slice(index, 1);
+    //   }
+    // }
     for (let enemy of this.game.enemies) {
       if (this.isTouchingOther(enemy) && enemy.infected) {
         this.game.lose();
@@ -58,8 +71,8 @@ class Player extends Character {
   draw() {
     this.game.context.save();
     this.game.context.fillStyle = "blue";
-    //this.game.context.drawImage(this.image, this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
-    this.game.context.fillRect(this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
+    this.game.context.drawImage(this.image, this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
+    //this.game.context.fillRect(this.position[0], this.position[1], this.dimensions[0], this.dimensions[1]);
     this.game.context.restore();
   }
 }

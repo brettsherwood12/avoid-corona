@@ -13,15 +13,28 @@ class Game {
     this.score = new Score(this);
     this.running = true;
     this.createEnemies();
+    this.createInfectedEnemy();
     this.createPowerUps();
     console.log(this.powerups);
   }
   createEnemies() {
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 15; i++) {
       const enemy = new Enemy(this);
       this.enemies.push(enemy);
     }
-    this.enemies[0].infected = true;
+  }
+  createInfectedEnemy() {
+    const infectedEnemy = this.enemies[0];
+    const position = infectedEnemy.position;
+    infectedEnemy.infected = true;
+    if (
+      position[0] > this.canvas.width * 0.25 &&
+      position[0] < this.canvas.width * 0.75 &&
+      position[1] > this.canvas.height * 0.25 &&
+      position[1] < this.canvas.height * 0.75
+    ) {
+      infectedEnemy.setRandomPosition();
+    }
   }
   createPowerUps() {
     for (let i = 0; i < 2; i++) {

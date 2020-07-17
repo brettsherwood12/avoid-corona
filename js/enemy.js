@@ -74,6 +74,9 @@ class Enemy extends Character {
   runLoopLogic() {
     this.moveRandomly();
     this.infected ? (this.image.src = "/assets/enemy_infected.jpg") : (this.image.src = "/assets/enemy.jpg");
+    if (this.isTouchingOther(this.game.player) && this.infected && !this.game.player.immune) {
+      this.game.lose();
+    }
   }
   draw() {
     this.game.context.save();

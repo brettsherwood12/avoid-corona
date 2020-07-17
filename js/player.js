@@ -47,11 +47,6 @@ class Player extends Character {
     }
   }
   runLoopLogic() {
-    for (let enemy of this.game.enemies) {
-      if (this.isTouchingOther(enemy) && enemy.infected && !this.immune) {
-        this.game.lose();
-      }
-    }
     for (let powerup of this.game.powerups) {
       if (this.isTouchingOther(powerup)) {
         const index = this.game.powerups.indexOf(powerup);

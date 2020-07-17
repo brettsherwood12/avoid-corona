@@ -2,6 +2,7 @@ class Character {
   constructor(game) {
     this.game = game;
     this.position = [];
+    this.dimensions = [50, 75];
     this.infected = false;
     this.image = new Image();
   }

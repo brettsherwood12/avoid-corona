@@ -1,12 +1,10 @@
-const enemyCoughUrl = "/assets/cough.mp3";
-const enemyCough = new Audio(enemyCoughUrl);
+const coughUrl = "/assets/cough.mp3";
+const cough = new Audio(coughUrl);
 
 class Enemy extends Character {
-  constructor(game, position, direction, infected, image) {
-    super(game, position, direction, infected, image);
-    this.dimensions = [40, 60];
+  constructor(game, position, direction, dimensions, infected, image) {
+    super(game, position, direction, dimensions, infected, image);
     this.direction = null;
-    this.infected = false;
     this.image.src = "";
     this.setRandomPosition();
     this.setRandomDirection();
@@ -67,7 +65,7 @@ class Enemy extends Character {
     }
     if (this.isTouchingOther(this.game.player)) {
       isTouchingOther = true;
-      //enemyCough.play();
+      cough.play();
     }
     if (!isTouchingOther && !isTouchingBoundary) {
       this.move();

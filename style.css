@@ -12,15 +12,6 @@ canvas {
   background-color: white;
 }
 
-.container {
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-  align-content: center;
-  padding: 1rem;
-}
-
 .wrapper {
   display: flex;
   justify-content: center;

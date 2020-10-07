@@ -1,0 +1,1 @@
+A silly game, coded in vanilla JS and animated with the html canvas API. Spatial logic, collision detection, and animation loop defined using methods and classes, applying principles of functional and object-oriented programming. Best practices used to keep it DRY and SOLID. Browser only.
